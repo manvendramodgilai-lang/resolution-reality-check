@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,11 +10,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <!-- Animated Background -->
-    <div class="bg-gradient"></div>
-    <div class="stars" id="stars"></div>
-    
+    <!-- Futuristic Cyber Background -->
+    <div class="cyber-background">
+        <div class="grid-overlay"></div>
+        <div class="glow-orb"></div>
+    </div>
+
     <div class="container">
         <!-- Header -->
         <header class="header">
@@ -31,19 +35,14 @@
                 <span class="title-gradient">Actually Happen?</span>
             </h1>
             <p class="subtitle">
-                Let our brutally honest (but kind) AI Oracle judge your New Year's ambitions.
+                A 100% logic-driven, zero-AI deterministic engine built to judge your 2026 ambitions.
             </p>
 
             <!-- Input Section -->
             <div class="input-section" id="input-section">
                 <div class="input-wrapper">
-                    <input 
-                        type="text" 
-                        id="resolution-input" 
-                        class="resolution-input" 
-                        placeholder="Type your 2026 resolution..."
-                        maxlength="200"
-                    >
+                    <input type="text" id="resolution-input" class="resolution-input"
+                        placeholder="Type your 2026 resolution..." maxlength="200">
                     <span class="char-count"><span id="char-count">0</span>/200</span>
                 </div>
                 <button class="check-btn" id="check-btn" onclick="checkResolution()">
@@ -98,12 +97,16 @@
             <div class="examples" id="examples">
                 <p class="examples-title">Need inspiration? Try these:</p>
                 <div class="example-chips">
-                    <button class="chip" onclick="useExample('I will go to the gym every single day')">🏋️ Gym every day</button>
-                    <button class="chip" onclick="useExample('I will learn 5 new programming languages')">💻 Learn 5 languages</button>
+                    <button class="chip" onclick="useExample('I will go to the gym every single day')">🏋️ Gym every
+                        day</button>
+                    <button class="chip" onclick="useExample('I will learn 5 new programming languages')">💻 Learn 5
+                        languages</button>
                     <button class="chip" onclick="useExample('I will wake up at 5 AM daily')">⏰ 5 AM wake up</button>
                     <button class="chip" onclick="useExample('I will read one book per week')">📚 Book per week</button>
-                    <button class="chip" onclick="useExample('I will become a billionaire')">💰 Become billionaire</button>
-                    <button class="chip" onclick="useExample('I will quit social media completely')">📵 Quit social media</button>
+                    <button class="chip" onclick="useExample('I will become a billionaire')">💰 Become
+                        billionaire</button>
+                    <button class="chip" onclick="useExample('I will quit social media completely')">📵 Quit social
+                        media</button>
                 </div>
             </div>
         </main>
@@ -119,4 +122,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>
