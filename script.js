@@ -117,8 +117,10 @@ async function analyzeResolution(resolution) {
         // 🌐 Routing through corsproxy.io to bypass browser CORS restrictions
         const proxyUrl = 'https://corsproxy.io/?';
         const targetUrl = 'https://api.openai.com/v1/chat/completions';
+        const finalUrl = proxyUrl + encodeURIComponent(targetUrl);
 
-        const response = await fetch(proxyUrl + encodeURIComponent(targetUrl), {
+        console.log('🔮 Oracle Consulting Proxy:', finalUrl);
+        const response = await fetch(finalUrl, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${OPENAI_API_KEY}`,
@@ -196,7 +198,7 @@ function localAnalysis(resolution) {
         /5 am daily/i, /no exceptions/i, /100%/i, /always/i, /forever/i,
         /master (5|6|7|8|9|10)/i, /learn (5|6|7|8|9|10)/i,
         /6 pack/i, /six pack/i, /abs/i, /body builder/i,
-        /destory/i, /world/i, /ruler/i, /galaxy/i, /magic/i, /superpower/i,
+        /destroy/i, /world/i, /ruler/i, /galaxy/i, /magic/i, /superpower/i,
         /marry.*celebrity/i, /win.*lottery/i, /impossible/i, /illegal/i
     ];
 
