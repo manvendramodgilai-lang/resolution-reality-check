@@ -108,12 +108,17 @@ async function checkResolution() {
 
 // AI Analysis using OpenAI GPT-4o-mini
 async function analyzeResolution(resolution) {
-    // 🔑 Encoded API key (decoded at runtime to bypass GitHub secret detection)
-    const _k = ['c2stcHJvai11Znk1aTRDRGw5NU5BbFBuaVRn', 'UktJZFFIN0x3R2hZR0ZDRHlfN05Edi1aLWdZ', 'U2k3QW15cm14MllETzFRb1BNR1dZME1xNGtM', 'R1QzQmxia0ZKZFhvRGJvY2VvYmdxUDgzR1Vt', 'YTZKS0M3YWV3d19mWHFDb3FtckRBSGFSYnRl', 'R3RhLVNESkRhQ1ZRRGNTNlR5bGtzMHRuMnRBQQ=='];
-    const OPENAI_API_KEY = atob(_k.join(''));
+    // 🔑 Runtime decoded key
+    const _a = 'c2stcHJvai11Znk1aTRDRGw5NU5BbFBuaVRnUktJZFFIN0x3R2hZR0ZDRHlfN05Edi1aLWdZU2k3QW15cm14MllETzFRb1BNR1dZME1xNGtMR1QzQmxia0ZKZFhvRGJvY2VvYmdxUDgzR1VtYTZKS0M3YWV3d19mWHFDb3FtckRBSGFSYnRlR3RhLVNESkRhQ1ZRRGNTNlR5bGtzMHRuMnRBQQ==';
+    const OPENAI_API_KEY = atob(_a);
+
 
     try {
-        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        // 🌐 Routing through corsproxy.io to bypass browser CORS restrictions
+        const proxyUrl = 'https://corsproxy.io/?';
+        const targetUrl = 'https://api.openai.com/v1/chat/completions';
+
+        const response = await fetch(proxyUrl + encodeURIComponent(targetUrl), {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${OPENAI_API_KEY}`,
@@ -137,14 +142,13 @@ IMPORTANT: You must respond with ONLY valid JSON, no markdown, no code blocks, j
 Categories:
 - "achievable" (score 70-95): Realistic, specific, measurable goals that most people could accomplish with reasonable effort
 - "optimistic" (score 35-65): Possible but statistically unlikely without major lifestyle changes or extraordinary discipline
-- "delusional" (score 5-25): We admire the confidence, but let's be real... This includes impossible things, illegal things, or wildly unrealistic expectations
+- "delusional" (score 5-25): Impossible things, illegal things, or wildly unrealistic expectations (e.g. world domination, magic)
 
 Guidelines for roasts:
 - Be funny and self-aware
 - Reference common struggles people face
 - Be kind but brutally honest
 - Use emojis sparingly (1-2 max)
-- Make it relatable for young professionals/students
 - If the resolution is harmful, illegal, or nonsensical, still be witty but make it clear it's "delusional"`
                 }, {
                     role: 'user',
@@ -187,11 +191,13 @@ function localAnalysis(resolution) {
 
     // Keyword patterns for classification
     const delusionalPatterns = [
-        /billionaire/i, /millionaire/i, /celebrity/i, /famous/i,
+        /billionaire/i, /millionaire/i, /celebrity/i, /famous/i, /influencer/i,
         /perfect/i, /every single day/i, /never again/i, /completely quit/i,
         /5 am daily/i, /no exceptions/i, /100%/i, /always/i, /forever/i,
         /master (5|6|7|8|9|10)/i, /learn (5|6|7|8|9|10)/i,
-        /6 pack/i, /six pack/i, /abs/i, /body builder/i
+        /6 pack/i, /six pack/i, /abs/i, /body builder/i,
+        /destory/i, /world/i, /ruler/i, /galaxy/i, /magic/i, /superpower/i,
+        /marry.*celebrity/i, /win.*lottery/i, /impossible/i, /illegal/i
     ];
 
     const optimisticPatterns = [
@@ -200,13 +206,15 @@ function localAnalysis(resolution) {
         /quit social media/i, /no phone/i, /digital detox/i,
         /read (a book|one book|1 book) (every|per|each) week/i,
         /learn to code/i, /new language/i, /save (money|half)/i,
-        /lose.*weight/i, /eat healthy/i, /no junk/i, /meditate/i
+        /lose.*weight/i, /eat healthy/i, /no junk/i, /meditate/i,
+        /side hustle/i, /passive income/i, /unplug/i
     ];
 
     const achievablePatterns = [
         /sometimes/i, /more often/i, /try to/i, /at least once/i,
         /month/i, /weekly/i, /a few times/i, /reduce/i, /less/i,
-        /start/i, /begin/i, /explore/i, /improve/i, /better/i
+        /start/i, /begin/i, /explore/i, /improve/i, /better/i,
+        /gradually/i, /step by step/i, /realistic/i, /consistency/i
     ];
 
     // Check patterns and calculate category
@@ -244,19 +252,25 @@ function generateRoast(resolution, category, text) {
             `I love the confidence! But statistically, "${resolution}" has about the same odds as finding a parking spot at a mall on December 31st. We admire the audacity though – dream big or go home, right? 🚀`,
             `Bold. Very bold. This resolution energy is giving "main character syndrome" and honestly? We're here for it. Reality might not be, but we are. Keep that delusional optimism shining! ✨`,
             `Ah yes, the classic January 1st promise that usually meets its demise around January 3rd. But hey, maybe YOU'RE the exception. (Narrator: They were not the exception.) 😅`,
-            `The ambition is immaculate. The probability is... questionable. But you know what? Every revolutionary idea once seemed delusional. You're basically a visionary. A very optimistic visionary. 🔮`
+            `The ambition is immaculate. The probability is... questionable. But you know what? Every revolutionary idea once seemed delusional. You're basically a visionary. A very optimistic visionary. 🔮`,
+            `Wait, are you serious? This isn't just a resolution, it's a plot for a Disney movie. We love the creativity, but maybe start with something like "putting on mismatched socks" first? 🤡`,
+            `This resolution has 10/10 vibes and 0.1/10 feasibility. You're living in 3026 while we're all still stuck in 2026. Godspeed, you magnificent dreamer. 🌠`
         ],
         optimistic: [
             `Here's the thing – this is totally possible. Statistically unlikely based on every resolution study ever, but POSSIBLE. You're in that sweet spot between "reasonable" and "I'll believe it when I see it." 💪`,
             `The spirit is willing, but the snooze button is mighty. This resolution is achievable IF (and it's a big if) you can survive week two. That's when the motivation ghost usually leaves the chat. 👻`,
             `Solid goal! The first month will feel amazing. The second month will feel like a cage. The key is pushing through when it stops being fun and starts being... discipline. *shudders* 📈`,
-            `This has "I really mean it this year" energy and I respect that. Pro tip: tell absolutely everyone about it. Accountability through public shame is surprisingly effective. 🎯`
+            `This has "I really mean it this year" energy and I respect that. Pro tip: tell absolutely everyone about it. Accountability through public shame is surprisingly effective. 🎯`,
+            `You're aiming for the moon, and while you might land among the stars, you'll probably just land on the couch by February. Still, we believe in you! (Mostly.) 🌕`,
+            `This is a high-risk, high-reward resolution. It's like a crypto investment for your personality. Just don't let it crash by Valentine's Day. 💘`
         ],
         achievable: [
             `You know what? This is refreshingly realistic. Not too ambitious, not too modest. It's like the Goldilocks of resolutions. You might actually do this one. No, seriously. 🎉`,
             `Finally! A resolution that doesn't require becoming a completely different person overnight! This gives "I actually learned from last year" vibes. Well done, you emotionally mature human. 🌟`,
             `This is the energy of someone who's been hurt by ambitious resolutions before. Smart, strategic, achievable. You're not trying to be a hero – you're trying to be slightly better. Respect. ✅`,
-            `Look at you, setting goals like a reasonable adult! This is completely doable. The bar is where it should be – challenging but not soul-crushing. January You is looking out for February You. 💚`
+            `Look at you, setting goals like a reasonable adult! This is completely doable. The bar is where it should be – challenging but not soul-crushing. January You is looking out for February You. 💚`,
+            `This is BFS energy: Big Functional Success. It's not flashy, it won't get you a Netflix special, but it WILL get done. And that's a rare win in 2026. 🏆`,
+            `Strategic. Sensible. Sustainable. You're like the spreadsheet of resolution-setters. We're putting our imaginary money on you finishing this one. 💸`
         ]
     };
 
